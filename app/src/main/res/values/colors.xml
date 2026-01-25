@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Material Design Colors -->
+    <color name="colorPrimary">#007AFF</color>
+    <color name="colorPrimaryDark">#0051D5</color>
+    <color name="colorAccent">#FF3B30</color>
+    
+    <!-- iOS System Colors - Light Mode -->
+    <color name="iosSystemBackground">#FFFFFF</color>
+    <color name="iosSecondaryBackground">#F2F2F7</color>
+    <color name="iosTertiaryBackground">#FFFFFF</color>
+    
+    <!-- iOS Label Colors -->
+    <color name="iosLabel">#000000</color>
+    <color name="iosSecondaryLabel">#3C3C43</color>
+    <color name="iosTertiaryLabel">#3C3C43</color>
+    
+    <!-- iOS Gray Colors -->
+    <color name="iosGray">#8E8E93</color>
+    <color name="iosLightGray">#C7C7CC</color>
+    <color name="iosDarkGray">#636366</color>
+    
+    <!-- iOS Tint Colors -->
+    <color name="iosBlue">#007AFF</color>
+    <color name="iosRed">#FF3B30</color>
+    <color name="iosGreen">#34C759</color>
+    <color name="iosOrange">#FF9500</color>
+    <color name="iosPurple">#AF52DE</color>
+    <color name="iosPink">#FF2D55</color>
+    <color name="iosTeal">#5AC8FA</color>
+    <color name="iosYellow">#FFCC00</color>
+    
+    <!-- Additional Colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+    <!-- Design Specific Colors - New UI -->
+    <color name="designBackground">#F6F7F8</color>
+    <color name="designPrimary">#137FEC</color>
+    <color name="designSurface">#FFFFFF</color>
+    <color name="designTextPrimary">#111418</color>
+    <color name="designTextSecondary">#617589</color>
+    <color name="designTextMeta">#9AAAB9</color>
+    <color name="designDivider">#F0F0F0</color>
+</resources>

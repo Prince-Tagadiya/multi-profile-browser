@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Multi Profile Browser</string>
+    <string name="app_description">Manage multiple browser profiles with isolated sessions</string>
+    
+    <!-- Profile Management -->
+    <string name="add_profile">Add Profile</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="delete_profile">Delete Profile</string>
+    <string name="profile_name">Profile Name</string>
+    <string name="website_url">Website URL</string>
+    
+    <!-- Actions -->
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    
+    <!-- Messages -->
+    <string name="profile_saved">Profile saved successfully</string>
+    <string name="profile_deleted">Profile deleted</string>
+    <string name="error_empty_name">Please enter a profile name</string>
+    <string name="error_empty_url">Please enter a website URL</string>
+    <string name="delete_confirmation">Delete this profile?</string>
+    
+    <!-- Navigation -->
+    <string name="back">Back</string>
+    <string name="forward">Forward</string>
+    <string name="refresh">Refresh</string>
+    
+    <!-- Splash Screen -->
+    <string name="splash_title">Profile Browser</string>
+    <string name="splash_subtitle">Multiple profiles. One browser.</string>
+    <string name="built_by">Built by PRINCE NARESHBHAI TAGADIYA</string>
+</resources>
