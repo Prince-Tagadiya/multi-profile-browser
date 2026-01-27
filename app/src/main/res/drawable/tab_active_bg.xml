@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- White background for the cohesive tab look -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF"/>
+            <corners 
+                android:topLeftRadius="8dp"
+                android:topRightRadius="8dp"/>
+        </shape>
+    </item>
+    
+    <!-- Blue top border indicator -->
+    <item android:gravity="top">
+        <shape android:shape="rectangle">
+            <solid android:color="#137FEC"/>
+            <size android:height="3dp"/>
+            <corners 
+                android:topLeftRadius="8dp"
+                android:topRightRadius="8dp"
+                android:bottomLeftRadius="0dp"
+                android:bottomRightRadius="0dp"/>
+        </shape>
+    </item>
+</layer-list>

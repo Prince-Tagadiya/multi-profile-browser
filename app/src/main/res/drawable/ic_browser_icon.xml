@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+    
+    <!-- Background Circle -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M48,48m-42,0a42,42 0,1,1 84,0a42,42 0,1,1 -84,0"/>
+    
+    <!-- Browser Circle -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M48,20 C32.536,20 20,32.536 20,48 C20,63.464 32.536,76 48,76 C63.464,76 76,63.464 76,48 C76,32.536 63.464,20 48,20 Z M48,70 C35.849,70 26,60.151 26,48 C26,35.849 35.849,26 48,26 C60.151,26 70,35.849 70,48 C70,60.151 60.151,70 48,70 Z"/>
+    
+    <!-- Magnifying Glass -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M40,35 C36.134,35 33,38.134 33,42 C33,45.866 36.134,49 40,49 C43.866,49 47,45.866 47,42 C47,38.134 43.866,35 40,35 Z M40,46 C37.791,46 36,44.209 36,42 C36,39.791 37.791,38 40,38 C42.209,38 44,39.791 44,42 C44,44.209 42.209,46 40,46 Z"/>
+    
+    <!-- Magnifying Glass Handle -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M45.5,47 L55,56.5 L57.5,54 L48,44.5 Z"/>
+</vector>
