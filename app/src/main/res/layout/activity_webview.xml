@@ -1,144 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout 
+<LinearLayout 
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#FFFFFF">
 
+    <!-- Unified Header -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:elevation="2dp">
 
-        <!-- Unified Header -->
-        <LinearLayout
+        <!-- Top Navigation Bar -->
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="#FFFFFF"
-            android:elevation="2dp">
+            android:layout_height="56dp"
+            android:paddingHorizontal="8dp"
+            android:gravity="center_vertical"
+            android:background="#FFFFFF">
 
-            <!-- Top Navigation Bar -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:paddingHorizontal="8dp"
+            <!-- Left Navigation Buttons -->
+            <LinearLayout
+                android:id="@+id/leftNavButtons"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:background="#FFFFFF">
+                android:layout_alignParentStart="true">
 
-                <!-- Left Navigation Buttons -->
-                <LinearLayout
-                    android:id="@+id/leftNavButtons"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_alignParentStart="true">
-
-                    <TextView
-                        android:id="@+id/btnClose"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:text="✕"
-                        android:textSize="20sp"
-                        android:textColor="#000000"
-                        android:gravity="center"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:background="?attr/selectableItemBackgroundBorderless"/>
-
-                    <TextView
-                        android:id="@+id/btnBack"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:text="‹"
-                        android:textSize="28sp"
-                        android:textColor="#000000"
-                        android:gravity="center"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:layout_marginStart="4dp"/>
-
-                    <TextView
-                        android:id="@+id/btnForward"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:text="›"
-                        android:textSize="28sp"
-                        android:textColor="#CCCCCC"
-                        android:gravity="center"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:layout_marginStart="4dp"/>
-
-                </LinearLayout>
-
-                <!-- Title (Centered) -->
                 <TextView
-                    android:id="@+id/webViewTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="Meesho Seller A"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:visibility="gone"/>
-
-                <!-- Right Navigation Buttons -->
-                <TextView
-                    android:id="@+id/btnRefresh"
+                    android:id="@+id/btnClose"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:text="⟳"
-                    android:textSize="24sp"
+                    android:text="✕"
+                    android:textSize="20sp"
+                    android:textColor="#000000"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"/>
+
+                <TextView
+                    android:id="@+id/btnBack"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:text="‹"
+                    android:textSize="28sp"
                     android:textColor="#000000"
                     android:gravity="center"
                     android:clickable="true"
                     android:focusable="true"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"/>
+                    android:layout_marginStart="4dp"/>
 
-            </RelativeLayout>
-
-            <!-- Tab Bar -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="#F5F5F5">
-
-                <!-- Tabs Container -->
-                <!-- Tabs Container -->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/profileSwitcherList"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingTop="8dp"
-                    android:paddingHorizontal="8dp"
-                    android:clipToPadding="false"
-                    android:scrollbars="none"/>
+                <TextView
+                    android:id="@+id/btnForward"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:text="›"
+                    android:textSize="28sp"
+                    android:textColor="#CCCCCC"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:layout_marginStart="4dp"/>
 
             </LinearLayout>
 
-            <!-- Progress Bar -->
-            <ProgressBar
-                android:id="@+id/webViewProgress"
-                style="?android:attr/progressBarStyleHorizontal"
+            <!-- Address Bar -->
+            <EditText
+                android:id="@+id/etUrlBar"
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:progress="0"
-                android:max="100"
-                android:progressTint="#137FEC"
-                android:progressBackgroundTint="#E5E7EB"/>
+                android:layout_height="36dp"
+                android:layout_toEndOf="@id/leftNavButtons"
+                android:layout_toStartOf="@id/btnRefresh"
+                android:layout_centerVertical="true"
+                android:layout_marginHorizontal="8dp"
+                android:background="@drawable/url_bar_bg"
+                android:paddingHorizontal="16dp"
+                android:textSize="14sp"
+                android:textColor="#000000"
+                android:hint="Search or type URL"
+                android:inputType="textUri"
+                android:imeOptions="actionGo"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:importantForAutofill="no"/>
+
+            <!-- Right Navigation Buttons -->
+            <TextView
+                android:id="@+id/btnRefresh"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="⟳"
+                android:textSize="24sp"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"/>
+
+        </RelativeLayout>
+
+        <!-- Tab Bar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#F5F5F5">
+
+            <!-- Tabs Container -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/profileSwitcherList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="8dp"
+                android:paddingHorizontal="8dp"
+                android:clipToPadding="false"
+                android:scrollbars="none"/>
 
         </LinearLayout>
+
+        <!-- Progress Bar -->
+        <ProgressBar
+            android:id="@+id/webViewProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:progress="0"
+            android:max="100"
+            android:progressTint="#137FEC"
+            android:progressBackgroundTint="#E5E7EB"/>
+
+    </LinearLayout>
+
+    <!-- Content Area: WebView + Loading Overlay -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <!-- WebView -->
         <WebView
@@ -147,60 +154,60 @@
             android:layout_height="match_parent"
             android:background="#FFFFFF"/>
 
-    </LinearLayout>
+        <!-- Loading Overlay -->
+        <FrameLayout
+            android:id="@+id/loadingOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFFFFF"
+            android:clickable="true"
+            android:visibility="gone">
 
-    <!-- Loading Overlay -->
-    <FrameLayout
-        android:id="@+id/loadingOverlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#FFFFFF"
-        android:clickable="true"
-        android:visibility="gone">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:paddingHorizontal="24dp">
-
-            <!-- Loading Spinner -->
-            <ProgressBar
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:indeterminateTint="#137FEC"/>
-
-            <!-- Loading Text -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:layout_marginTop="24dp">
+                android:paddingHorizontal="24dp">
 
-                <TextView
-                    android:id="@+id/loadingText"
+                <!-- Loading Spinner -->
+                <ProgressBar
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:indeterminateTint="#137FEC"/>
+
+                <!-- Loading Text -->
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Switching to Profile..."
-                    android:textSize="14sp"
-                    android:textColor="#000000"
-                    android:textStyle="bold"/>
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_marginTop="24dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Syncing browser profile data"
-                    android:textSize="12sp"
-                    android:textColor="#666666"
-                    android:layout_marginTop="4dp"/>
+                    <TextView
+                        android:id="@+id/loadingText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Switching to Profile..."
+                        android:textSize="14sp"
+                        android:textColor="#000000"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Syncing browser profile data"
+                        android:textSize="12sp"
+                        android:textColor="#666666"
+                        android:layout_marginTop="4dp"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
-
+        </FrameLayout>
+        
     </FrameLayout>
 
     <!-- Hidden Menu Button (for legacy code) -->
@@ -210,4 +217,4 @@
         android:layout_height="0dp"
         android:visibility="gone"/>
 
-</FrameLayout>
+</LinearLayout>

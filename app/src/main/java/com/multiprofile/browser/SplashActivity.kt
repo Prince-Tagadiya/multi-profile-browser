@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -79,27 +80,12 @@ fun SplashScreen(onNavigateToMain: () -> Unit) {
                     .fillMaxSize()
                     .padding(horizontal = 24.dp)
             ) {
-                // App Icon with blue rounded background and shadow
-                Box(
-                    modifier = Modifier
-                        .size(80.dp)
-                        .shadow(
-                            elevation = 12.dp,
-                            shape = RoundedCornerShape(16.dp),
-                            spotColor = Color(0xFF137FEC).copy(alpha = 0.2f)
-                        )
-                        .background(
-                            color = Color(0xFF137FEC),
-                            shape = RoundedCornerShape(16.dp)
-                        ),
-                    contentAlignment = Alignment.Center
-                ) {
-                    // Browser/Search icon (using a simple text emoji as placeholder)
-                    Text(
-                        text = "🔍",
-                        fontSize = 36.sp
-                    )
-                }
+                // App Icon
+                Image(
+                    painter = painterResource(id = R.mipmap.ic_launcher),
+                    contentDescription = "App Logo",
+                    modifier = Modifier.size(96.dp)
+                )
                 
                 Spacer(modifier = Modifier.height(32.dp))
                 

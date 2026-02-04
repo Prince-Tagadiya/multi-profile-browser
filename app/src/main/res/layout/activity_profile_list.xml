@@ -18,18 +18,7 @@
             android:background="@color/designSurface"
             android:paddingHorizontal="16dp">
 
-            <!-- Menu Button -->
-            <ImageView
-                android:id="@+id/menuIcon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:src="@android:drawable/ic_menu_sort_by_size"
-                android:contentDescription="Menu"
-                android:padding="8dp"
-                android:tint="@color/designTextPrimary"
-                android:background="?attr/selectableItemBackgroundBorderless"/>
+
 
             <!-- Title -->
             <TextView
@@ -41,18 +30,7 @@
                 android:textStyle="bold"
                 android:textColor="@color/designTextPrimary"/>
 
-            <!-- Settings Button -->
-            <ImageView
-                android:id="@+id/settingsIcon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:src="@android:drawable/ic_menu_manage"
-                android:contentDescription="Settings"
-                android:padding="8dp"
-                android:tint="@color/designTextPrimary"
-                android:background="?attr/selectableItemBackgroundBorderless"/>
+
 
             <!-- Bottom border/shadow line -->
             <View
@@ -122,7 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Built by Prince Tagadiya"
+            android:text="Built by Prince Nareshbhai Tagadiya"
             android:textSize="12sp"
             android:textStyle="bold"
             android:textColor="@color/designTextMeta"

@@ -59,7 +59,7 @@ open class WebViewActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_webview)
 
-        val titleText = findViewById<TextView>(R.id.webViewTitle)
+
         val progressBar = findViewById<ProgressBar>(R.id.webViewProgress)
         val closeButton = findViewById<TextView>(R.id.btnClose)
         val backButton = findViewById<TextView>(R.id.btnBack)
@@ -67,7 +67,7 @@ open class WebViewActivity : AppCompatActivity() {
         val refreshButton = findViewById<TextView>(R.id.btnRefresh)
         loadingOverlay = findViewById(R.id.loadingOverlay)
 
-        titleText.text = profileName
+
 
         // Mark profile as active
         val profileManager = ProfileManager(this)
@@ -112,6 +112,20 @@ open class WebViewActivity : AppCompatActivity() {
                             
                             // Update navigation button states
                             updateNavigationButtons()
+                            
+                            // Update URL Bar if not focused
+                            try {
+                                val etUrlBar = findViewById<android.widget.EditText>(R.id.etUrlBar)
+                                if (etUrlBar != null && !etUrlBar.hasFocus() && url != null) {
+                                    etUrlBar.setText(url)
+                                }
+                            } catch (e: Exception) {}
+
+                            // FORCE HIDE SPINNER to resolve stuck animation issues
+                            try {
+                                val rv = findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.profileSwitcherList)
+                                (rv?.adapter as? ProfileSwitcherAdapter)?.setLoadingState(false)
+                            } catch (e: Exception) {}
                         }
                     }
 
@@ -160,7 +174,11 @@ open class WebViewActivity : AppCompatActivity() {
         }
 
         closeButton.setOnClickListener {
-            finish()
+            // Return to Home (Profile List) without killing the session
+            val intent = Intent(this, ProfileListActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+            startActivity(intent)
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
         
         // Navigation controls
@@ -178,6 +196,53 @@ open class WebViewActivity : AppCompatActivity() {
         
         refreshButton.setOnClickListener {
             webView?.reload()
+        }
+        
+        // URL Bar Logic
+        val etUrlBar = findViewById<android.widget.EditText>(R.id.etUrlBar)
+        if (etUrlBar != null) {
+            // Set initial URL
+            if (!profileUrl.isNullOrEmpty()) {
+                etUrlBar.setText(profileUrl)
+            }
+            
+            etUrlBar.setOnEditorActionListener { v, actionId, event ->
+                if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_GO ||
+                    (event != null && event.keyCode == android.view.KeyEvent.KEYCODE_ENTER && event.action == android.view.KeyEvent.ACTION_DOWN)) {
+                    
+                    var url = etUrlBar.text.toString().trim()
+                    if (url.isNotEmpty()) {
+                        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                            if (url.contains(" ") || !url.contains(".")) {
+                                // Search Query
+                                try {
+                                    url = "https://www.google.com/search?q=" + java.net.URLEncoder.encode(url, "UTF-8")
+                                } catch (e: Exception) {
+                                    url = "https://www.google.com/search?q=$url" // Fallback
+                                }
+                            } else {
+                                // Valid-ish URL
+                                url = "https://$url"
+                            }
+                        }
+                        webView?.loadUrl(url)
+                        
+                        // Clear focus
+                        etUrlBar.clearFocus()
+                        val imm = getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as? android.view.inputmethod.InputMethodManager
+                        imm?.hideSoftInputFromWindow(etUrlBar.windowToken, 0)
+                    }
+                    true
+                } else {
+                    false
+                }
+            }
+            
+            etUrlBar.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    etUrlBar.post { etUrlBar.selectAll() }
+                }
+            }
         }
         
         // Update button states
@@ -246,15 +311,59 @@ open class WebViewActivity : AppCompatActivity() {
                     else -> WebViewActivity::class.java
                 }
             } else {
-                // MISS: Profile is not loaded. We must overwrite a slot.
-                // We rotate: Main -> Beta -> Gamma -> Main
-                // This ensures we always keep 3 profiles (Current + 2 Others)
-                targetClass = when (this) {
-                    is WebViewActivityGamma -> WebViewActivity::class.java // Gamma -> Main
-                    is WebViewActivityBeta -> WebViewActivityGamma::class.java // Beta -> Gamma
-                    else -> WebViewActivityBeta::class.java // Main -> Beta
+                // MISS: Profile is not loaded. Find the BEST slot to overwrite (Active LRU).
+                // We want to kill the profile that is FARTHEST from the new target index.
+                var bestSlot = -1
+                
+                try {
+                    val allProfiles = ProfileManager(this).getProfiles()
+                    val newIndex = allProfiles.indexOfFirst { it.id == newProfile.id }
+                    var maxDistance = -1
+                    
+                    // Check all slots (MAIN, BETA, GAMMA)
+                    val slots = listOf(ProcessStateManager.SLOT_MAIN, ProcessStateManager.SLOT_BETA, ProcessStateManager.SLOT_GAMMA)
+                    val mySlot = getMySlotType()
+                    
+                    for (slot in slots) {
+                        if (slot == mySlot) continue // Never overwrite myself immediately
+                        
+                        val idInSlot = processManager.getProfileInSlot(slot)
+                        if (idInSlot.isNullOrEmpty()) {
+                            bestSlot = slot
+                            break // Empty slot found!
+                        }
+                        
+                        val idx = allProfiles.indexOfFirst { it.id == idInSlot }
+                        if (idx == -1) {
+                            bestSlot = slot
+                            break // Invalid profile found, overwrite it
+                        }
+                        
+                        val dist = kotlin.math.abs(idx - newIndex)
+                        if (dist > maxDistance) {
+                            maxDistance = dist
+                            bestSlot = slot
+                        }
+                    }
+                } catch (e: Exception) {
+                    // Fallback
                 }
-                android.util.Log.d("WebViewActivity", "SmartSwitch: Loading new profile ${newProfile.name} into next slot")
+
+                if (bestSlot == -1) {
+                    // Fallback Rotation Check
+                    bestSlot = when (this) {
+                         is WebViewActivityGamma -> ProcessStateManager.SLOT_MAIN
+                         is WebViewActivityBeta -> ProcessStateManager.SLOT_GAMMA
+                         else -> ProcessStateManager.SLOT_BETA
+                    }
+                }
+                
+                targetClass = when (bestSlot) {
+                    ProcessStateManager.SLOT_GAMMA -> WebViewActivityGamma::class.java
+                    ProcessStateManager.SLOT_BETA -> WebViewActivityBeta::class.java
+                    else -> WebViewActivity::class.java
+                }
+                android.util.Log.d("WebViewActivity", "SmartSwitch: Overwriting slot $bestSlot for new profile")
             }
             
             val intent = Intent(this, targetClass)
@@ -271,7 +380,7 @@ open class WebViewActivity : AppCompatActivity() {
     }
 
     private val cleanupReceiver = object : android.content.BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
+        override fun onReceive(context: android.content.Context?, intent: Intent?) {
             if (intent?.action == "com.multiprofile.browser.ACTION_KILL_PROFILE") {
                 val targetId = intent.getStringExtra("TARGET_ID")
                 if (targetId == profileId) {
@@ -302,6 +411,7 @@ open class WebViewActivity : AppCompatActivity() {
                 safeIds.add(profileId!!)
                 // Previous
                 if (currentIndex > 0) safeIds.add(allProfiles[currentIndex - 1].id)
+                
                 // Next
                 if (currentIndex < allProfiles.size - 1) safeIds.add(allProfiles[currentIndex + 1].id)
                 
@@ -394,6 +504,18 @@ open class WebViewActivity : AppCompatActivity() {
             // Ignore if not registered
         }
 
+        // Clear Slot State so logic knows this slot is theoretically free (though process might live)
+        try {
+            if (profileId != null) {
+                 val pm = ProcessStateManager(this)
+                 val mySlot = getMySlotType()
+                 // Only clear if I am still the owner
+                 if (pm.getProfileInSlot(mySlot) == profileId) {
+                     pm.updateSlotState(mySlot, "") 
+                 }
+            }
+        } catch(e: Exception) {}
+
         android.util.Log.d("WebViewActivity", "onDestroy called - cleaning up session preserved")
         
         // Clear active profile status
@@ -448,7 +570,7 @@ open class WebViewActivity : AppCompatActivity() {
             val iconText: TextView = view.findViewById(R.id.profileIcon)
             val loadingProgress: ProgressBar = view.findViewById(R.id.tabLoadingProgress)
             val nameText: TextView = view.findViewById(R.id.profileName)
-            val closeButton: TextView = view.findViewById(R.id.btnCloseTab)
+
             val container: View = view as View
         }
 
@@ -487,7 +609,7 @@ open class WebViewActivity : AppCompatActivity() {
                 // Active tab
                 holder.container.setBackgroundResource(R.drawable.tab_active_bg)
                 holder.nameText.setTextColor(0xFF000000.toInt())
-                holder.closeButton.visibility = View.VISIBLE
+
                 
                 // Loading State logic
                 if (isLoadingCurrent) {
@@ -504,7 +626,7 @@ open class WebViewActivity : AppCompatActivity() {
                 // Inactive tab
                 holder.container.setBackgroundResource(R.drawable.tab_inactive_bg)
                 holder.nameText.setTextColor(0xFF666666.toInt())
-                holder.closeButton.visibility = View.GONE
+
                 holder.loadingProgress.visibility = View.GONE
                 holder.iconText.visibility = View.VISIBLE
                 
@@ -520,11 +642,7 @@ open class WebViewActivity : AppCompatActivity() {
                 }
             }
             
-            // Close button listener (optional - currently just prevents switching)
-            holder.closeButton.setOnClickListener {
-                // TODO: Implement close tab functionality
-                Toast.makeText(this@WebViewActivity, "Close tab: ${profile.name}", Toast.LENGTH_SHORT).show()
-            }
+
         }
 
         override fun getItemCount() = profiles.size

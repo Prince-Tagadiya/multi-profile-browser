@@ -56,19 +56,7 @@
         android:maxLines="1"
         android:ellipsize="end"/>
 
-    <!-- Close Button -->
-    <TextView
-        android:id="@+id/btnCloseTab"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:text="✕"
-        android:textSize="10sp"
-        android:textColor="#999999"
-        android:gravity="center"
-        android:layout_marginStart="4dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="?attr/selectableItemBackgroundBorderless"/>
+
 
 </LinearLayout>
 

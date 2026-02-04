@@ -39,7 +39,7 @@
             android:process=":webview"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
+            android:theme="@style/Theme.Browser.NoAnimation" />
 
         <activity
             android:name=".WebViewActivityBeta"
@@ -47,7 +47,7 @@
             android:process=":webview_beta"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
+            android:theme="@style/Theme.Browser.NoAnimation" />
 
         <activity
             android:name=".WebViewActivityGamma"
@@ -55,7 +55,15 @@
             android:process=":webview_gamma"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
+            android:theme="@style/Theme.Browser.NoAnimation" />
+
+        <activity
+            android:name=".WebViewActivityDelta"
+            android:exported="false"
+            android:process=":webview_delta"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@style/Theme.Browser.NoAnimation" />
     </application>
 
 </manifest>
